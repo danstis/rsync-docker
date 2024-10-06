@@ -67,6 +67,11 @@ jobs:
           output-file: hadolint.out
           format: json
           failure-threshold: ignore
+      - name: Upload Hadolint artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: hadolint
+          path: hadolint.out
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         with:
