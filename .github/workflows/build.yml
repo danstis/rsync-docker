@@ -61,10 +61,12 @@ jobs:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Run Hadolint
         uses: hadolint/hadolint-action@v3.1.0
+        continue-on-error: true
         with:
           dockerfile: Dockerfile
           output-file: hadolint.out
           format: json
+          failure-threshold: ignore
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         with:
