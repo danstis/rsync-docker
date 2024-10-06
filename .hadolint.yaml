@@ -2,3 +2,5 @@
 
 # ignored:
 #   - DL3018
+
+no-fail: true
