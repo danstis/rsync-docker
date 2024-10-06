@@ -1,6 +1,0 @@
-# Inline ignores can be added with `# hadolint ignore=DL3001,SC1081` directly above the line
-
-# ignored:
-#   - DL3018
-
-no-fail: true

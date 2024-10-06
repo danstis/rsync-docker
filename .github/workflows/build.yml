@@ -59,18 +59,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Run Hadolint
+      - name: Run Hadolint # Can ignore inline by adding comment: # hadolint ignore=DL3001,SC1081
         uses: hadolint/hadolint-action@v3.1.0
         continue-on-error: true
         with:
-          dockerfile: ./Dockerfile
-          output-file: hadolint.out
+          dockerfile: Dockerfile
+          output-file: hadolint.json
           format: json
       - name: Upload Hadolint artifact
         uses: actions/upload-artifact@v3
         with:
           name: hadolint
-          path: hadolint.out
+          path: hadolint.json
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         with:
