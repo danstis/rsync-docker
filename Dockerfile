@@ -6,6 +6,7 @@ RUN apk add --no-cache \
     rsync \
     tzdata
 
+WORKDIR /rsync
 COPY rsync.sh .
 
 ENTRYPOINT [ "./rsync.sh" ]
