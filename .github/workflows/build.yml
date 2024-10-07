@@ -63,7 +63,7 @@ jobs:
         uses: hadolint/hadolint-action@v3.1.0
         continue-on-error: true
         with:
-          dockerfile: ./Dockerfile
+          dockerfile: /github/workspace/Dockerfile
           output-file: hadolint.json
           format: json
       - name: Upload Hadolint artifact
