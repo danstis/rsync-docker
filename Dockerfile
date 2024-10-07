@@ -1,4 +1,4 @@
-FROM alpine:3
+FROM alpine:3.20.3
 
 RUN apk add --update-cache \
     rsync \
