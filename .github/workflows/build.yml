@@ -35,27 +35,29 @@ jobs:
       - name: Use GitVersion
         id: gitversion
         uses: gittools/actions/gitversion/execute@v3.0.0
-      - name: Bump version and push tag # https://github.com/marketplace/actions/github-tag
-        id: tag_version
-        if: github.ref == 'refs/heads/master'
-        uses: mathieudutour/github-tag-action@v6.2
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: ${{ steps.gitversion.outputs.FullSemVer }}
-          tag_prefix: v
-      - name: Create a GitHub release
-        if: github.ref == 'refs/heads/master'
-        uses: ncipollo/release-action@v1
-        with:
-          tag: ${{ steps.tag_version.outputs.new_tag }}
-          name: Release ${{ steps.tag_version.outputs.new_tag }}
-          body: ${{ steps.tag_version.outputs.changelog }}
       - name: Set output variables
         run: |
           echo "::notice::FullSemVer ${{ steps.gitversion.outputs.FullSemVer }}"
           echo "::notice::MajorMinorPatch ${{ steps.gitversion.outputs.MajorMinorPatch }}"
           echo "::notice::Major ${{ steps.gitversion.outputs.Major }}"
           echo "::notice::Minor ${{ steps.gitversion.outputs.Minor }}"
+      - name: Bump version and push tag # https://github.com/marketplace/actions/github-tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.2
+        if: github.ref == 'refs/heads/master'
+        continue-on-error: true
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          custom_tag: ${{ steps.gitversion.outputs.FullSemVer }}
+          tag_prefix: v
+      - name: Create a GitHub release
+        uses: ncipollo/release-action@v1
+        if: github.ref == 'refs/heads/master'
+        continue-on-error: true
+        with:
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
 
   # MARK: Sonar Cloud
   sonarcloud:
@@ -110,7 +112,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: ./dockerfile
+          file: Dockerfile
           platforms: linux/amd64
           push: true
           tags: |
