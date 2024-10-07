@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      discussions: write
     outputs:
       FullSemVer: ${{ steps.gitversion.outputs.FullSemVer }}
       MajorMinorPatch: ${{ steps.gitversion.outputs.MajorMinorPatch }}
